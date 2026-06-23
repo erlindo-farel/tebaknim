@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Hafalan NIM Mahasiswa</title>
+    <style>
+        /* Desain Dasar & Background Modern Gradient */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at top right, #e0e7ff 0%, #f1f5f9 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #1e293b;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Desain Panel Progress Atas */
+        .progress-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .counter-text {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar-bg {
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Desain Kartu Utama Premium */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+
+        /* Wadah Foto & Siluet Tanda Tanya */
+        .foto-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px auto;
+        }
+
+        .foto-profil {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            display: block;
+            background-color: #f1f5f9;
+            transition: transform 0.3s ease;
+        }
+
+        /* Siluet "?" Khusus Mode Tebak Nama */
+        .siluet-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 700;
+            color: #94a3b8;
+            z-index: 2;
+        }
+
+        h2 {
+            margin: 0 0 25px 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        /* Wadah Input Fleksibel */
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 14px;
+            background-color: #f8fafc;
+            padding: 6px 10px 6px 18px;
+            transition: all 0.25s ease;
+        }
+
+        .input-container:focus-within {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            background-color: #ffffff;
+        }
+
+        .input-wrapper {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .prefix-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #64748b;
+            user-select: none;
+            padding-right: 4px;
+        }
+
+        input {
+            flex: 1;
+            width: 100%;
+            padding: 8px 0;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: left;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #1e293b;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Tombol Kirim Jawaban */
+        .btn-submit {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            color: #2563eb;
+            background-color: #eff6ff;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.92);
+        }
+
+        /* Status BENAR & SALAH */
+        .benar {
+            background-color: #f0fdf4 !important;
+            border-color: #16a34a !important;
+        }
+        .benar .prefix-text, .benar input, .benar .btn-submit {
+            color: #166534 !important;
+        }
+        .benar .btn-submit {
+            pointer-events: none;
+        }
+
+        .salah {
+            background-color: #fdf2f2 !important;
+            border-color: #dc2626 !important;
+            animation: getar 0.3s ease-in-out;
+        }
+        .salah .prefix-text, .salah input, .salah .btn-submit {
+            color: #991b1b !important;
+        }
+
+        @keyframes getar {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Layar Sukses Selesai Game */
+        .success-screen {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .success-screen h3 {
+            color: #10b981;
+            font-size: 28px;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .btn-restart {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-restart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(29, 78, 216, 0.4);
+        }
+
+        /* Pop-Up Toast Hasil Jawaban */
+        #popup {
+            visibility: hidden;
+            min-width: 300px;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            text-align: center;
+            border-radius: 16px;
+            padding: 18px;
+            position: fixed;
+            z-index: 10005;
+            bottom: 40px;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(30px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #popup.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Tombol Lampu Clue Melayang */
+        #btn-clue-floating {
+            position: fixed;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: all 0.25s ease;
+        }
+
+        #btn-clue-floating:hover {
+            transform: translateY(-53%) scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .efek-cahaya {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(234, 179, 8, 0.5);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .animasi-bersinar {
+            animation: kilatanCahaya 1.2s ease-out forwards;
+        }
+
+        @keyframes kilatanCahaya {
+            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 20px 10px rgba(234, 179, 8, 0.7); }
+            30% { transform: scale(2.2); opacity: 0.8; box-shadow: 0 0 40px 25px rgba(234, 179, 8, 0.4); }
+            100% { transform: scale(3.2); opacity: 0; box-shadow: 0 0 0px 0px rgba(234, 179, 8, 0); }
+        }
+
+        /* Hamburger Menu Modern */
+        .hamburger-menu {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            z-index: 10000;
+            cursor: pointer;
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .hamburger-menu:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        
+        .bar {
+            width: 22px;
+            height: 3px;
+            background-color: #334155;
+            margin: 4px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* Dropdown Menu List */
+        .menu-dropdown {
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 8px 0;
+            z-index: 10000;
+            min-width: 230px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transform-origin: top right;
+            animation: bukaMenu 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes bukaMenu {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+        
+        .menu-item:hover {
+            background-color: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* Wadah Autocomplete Dropdown Premium */
+        .autocomplete-box {
+            position: absolute;
+            top: 100%;
+            left: -14px;
+            right: -14px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 999;
+            box-shadow: 0 12px 24px -4px rgba(0,0,0,0.08);
+            display: none;
+            text-align: left;
+            margin-top: 8px;
+            padding: 4px 0;
+        }
+        
+        .autocomplete-item {
+            padding: 11px 18px;
+            cursor: pointer;
+            border-bottom: 1px solid #f8fafc;
+            font-size: 15px;
+            font-weight: 600;
+            color: #334155;
+            transition: background 0.15s ease;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        
+        .autocomplete-item:hover {
+            background-color: #f0fdf4;
+            color: #16a34a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hamburger-menu" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    
+    <div class="menu-dropdown" id="menu-dropdown">
+        <div class="menu-item" onclick="setGameMode(true)">Tebak NIM</div>
+        <div class="menu-item" onclick="setGameMode(false)">Tebak Nama</div>
+    </div>
+
+    <div class="container">
+        <div class="progress-panel">
+            <div class="counter-text" id="counter">Memuat...</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="card" id="game-card">
+            <div class="foto-wrapper">
+                <img id="foto-mahasiswa" class="foto-profil" src="" alt="Foto Mahasiswa" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23cbd5e1\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z\'/></svg>'">
+                <div id="siluet-placeholder" class="siluet-placeholder">?</div>
+            </div>
+            
+            <h2 id="nama-mahasiswa">Memuat...</h2>
+            
+            <div class="input-container" id="kolom-tebakan">
+                <span class="prefix-text">G2-</span>
+                <div class="input-wrapper">
+                    <input type="text" id="input-nim" placeholder="065" autocomplete="off" oninput="cariRekomendasiNama()">
+                    <div class="autocomplete-box" id="autocomplete-box"></div>
+                </div>
+                <button class="btn-submit" id="btn-submit" title="Kirim Jawaban (Enter)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="success-screen" id="success-screen">
+            <h3>Luar Biasa! 🎉</h3>
+            <p>Kamu berhasil menghafal seluruh nomor induk mahasiswa tanpa ada yang terlewat.</p>
+            <button class="btn-restart" onclick="mulaiGameBaru()">Ulangi Latihan</button>
+        </div>
+    </div>
+
+    <div id="popup">NIM Lengkap</div>
+
+    <button id="btn-clue-floating" onclick="berikanClueDenganEfek()" title="Bantuan Jawaban">
+        💡
+        <span class="efek-cahaya"></span>
+    </button>
+
+    <script>
+        // 1. DATA MASTER MAHASISWA (Format NIM G2-xxx)
+        const masterData = [
+            { nama: "Adzfar Zacky Rahman", nim: "G2-001", jawaban: "001", foto: "foto/001.jpg" },
+            { nama: "Aullivhya Shavana Zeevania", nim: "G2-002", jawaban: "002", foto: "foto/002.jpg" },
+            { nama: "Azma Azkiyah Sabriah", nim: "G2-003", jawaban: "003", foto: "foto/003.jpg" },
+            { nama: "Cut Wulan Nayyara", nim: "G2-004", jawaban: "004", foto: "foto/004.jpg" },
+            { nama: "Citra Putri Marlin", nim: "G2-005", jawaban: "005", foto: "foto/005.jpg" },
+            { nama: "Farel Erlindo", nim: "G2-006", jawaban: "006", foto: "foto/006.jpg" },
+            { nama: "Ramdhan Hasby Putra Hidayat", nim: "G2-007", jawaban: "007", foto: "foto/007.jpg" },
+            { nama: "Chelsea Amelia Putri", nim: "G2-008", jawaban: "008", foto: "foto/008.jpg" },
+            { nama: "Imanuel Kristian Sugiono", nim: "G2-009", jawaban: "009", foto: "foto/009.jpg" },
+            { nama: "Erlangga Eka Praditiya", nim: "G2-010", jawaban: "010", foto: "foto/010.jpg" },
+            { nama: "Anggieta Nazya Ramadhani", nim: "G2-011", jawaban: "011", foto: "foto/011.jpg" },
+            { nama: "Nicky Chandra Juniversaria", nim: "G2-012", jawaban: "012", foto: "foto/012.jpg" },
+            { nama: "Akmal Maulana Zaki", nim: "G2-013", jawaban: "013", foto: "foto/013.jpg" },
+            { nama: "Sarah Maulidina", nim: "G2-014", jawaban: "014", foto: "foto/014.jpg" },
+            { nama: "Hyundai Williams Aldiansyah", nim: "G2-015", jawaban: "015", foto: "foto/015.jpg" },
+            { nama: "Auditia Anugeraini", nim: "G2-016", jawaban: "016", foto: "foto/016.jpg" },
+            { nama: "Ryva Raynar Arya Noviar", nim: "G2-017", jawaban: "017", foto: "foto/017.jpg" },
+            { nama: "Muhammad Fakhriy Annas", nim: "G2-018", jawaban: "018", foto: "foto/018.jpg" },
+            { nama: "Nailah Nur Rahman", nim: "G2-019", jawaban: "019", foto: "foto/019.jpg" },
+            { nama: "Michael Zlatan Mecca", nim: "G2-020", jawaban: "020", foto: "foto/020.jpg" },
+            { nama: "Fairuz Fadhilah Najla", nim: "G2-021", jawaban: "021", foto: "foto/021.jpg" },
+            { nama: "Kanti Rahajeng Ningtryas", nim: "G2-022", jawaban: "022", foto: "foto/022.jpg" },
+            { nama: "Wira Buwono Rachman", nim: "G2-023", jawaban: "023", foto: "foto/023.jpg" },
+            { nama: "Salmi Orienta Starry", nim: "G2-024", jawaban: "024", foto: "foto/024.jpg" },
+            { nama: "Radithya Devarel Setiawan", nim: "G2-025", jawaban: "025", foto: "foto/025.jpg" },
+            { nama: "Salwa Az-Zahra Putri Nugraha", nim: "G2-026", jawaban: "026", foto: "foto/026.jpg" },
+            { nama: "Ranum Fitriarini", nim: "G2-027", jawaban: "027", foto: "foto/027.jpg" },
+            { nama: "Suci Juniarti", nim: "G2-028", jawaban: "028", foto: "foto/028.jpg" },
+            { nama: "Muhammad Vakhran Arzaq", nim: "G2-030", jawaban: "030", foto: "foto/030.jpg" },
+            { nama: "Muhammad Hilal Agustiawan", nim: "G2-031", jawaban: "031", foto: "foto/031.jpg" },
+            { nama: "Elmana Fiah Alkhaeron", nim: "G2-032", jawaban: "032", foto: "foto/032.jpg" },
+            { nama: "Vito Maulana Yusuf", nim: "G2-033", jawaban: "033", foto: "foto/033.jpg" },
+            { nama: "Amelia Dwi Pratiwi", nim: "G2-034", jawaban: "034", foto: "foto/034.jpg" },
+            { nama: "Maulia Putri Adisti", nim: "G2-035", jawaban: "035", foto: "foto/035.jpg" },
+            { nama: "Sang Ayu Putu Kezhya Arnevha", nim: "G2-036", jawaban: "036", foto: "foto/036.jpg" },
+            { nama: "Nadhifa Rahmadia Fauzi", nim: "G2-037", jawaban: "037", foto: "foto/037.jpg" },
+            { nama: "Fizar Putra Laksana", nim: "G2-038", jawaban: "038", foto: "foto/038.jpg" },
+            { nama: "Mega Soraya Harahap", nim: "G2-039", jawaban: "039", foto: "foto/039.jpg" },
+            { nama: "Nabila Nailatul Izzah Andi", nim: "G2-040", jawaban: "040", foto: "foto/040.jpg" },
+            { nama: "Aufa Hudzaifa Haura", nim: "G2-041", jawaban: "041", foto: "foto/041.jpg" },
+            { nama: "Stefani Syalomita Saragih", nim: "G2-042", jawaban: "042", foto: "foto/042.jpg" },
+            { nama: "Abizar Aulia", nim: "G2-043", jawaban: "043", foto: "foto/043.jpg" },
+            { nama: "Qinthara Nayla Gunawan", nim: "G2-044", jawaban: "044", foto: "foto/044.jpg" },
+            { nama: "Nayla Kayla Alvina", nim: "G2-045", jawaban: "045", foto: "foto/045.jpg" },
+            { nama: "Shabrina Natasya Amelia", nim: "G2-046", jawaban: "046", foto: "foto/046.jpg" },
+            { nama: "M. Sandy Taufiqurahman", nim: "G2-047", jawaban: "047", foto: "foto/047.jpg" },
+            { nama: "Muhammad Fathan Rizqina Nurafiat", nim: "G2-048", jawaban: "048", foto: "foto/048.jpg" },
+            { nama: "Saskia Aulia Rahma", nim: "G2-049", jawaban: "049", foto: "foto/049.jpg" },
+            { nama: "Jesica A. Pakpahan", nim: "G2-050", jawaban: "050", foto: "foto/050.jpg" },
+            { nama: "Azzura Putri Asyifa", nim: "G2-051", jawaban: "051", foto: "foto/051.jpg" },
+            { nama: "Kanza Aulia Nadhira", nim: "G2-052", jawaban: "052", foto: "foto/052.jpg" },
+            { nama: "Hanifa Az Zahra", nim: "G2-053", jawaban: "053", foto: "foto/053.jpg" },
+            { nama: "Danial Ichsan Kamil", nim: "G2-054", jawaban: "054", foto: "foto/054.jpg" },
+            { nama: "Muhammad Luthfi Fuadi", nim: "G2-055", jawaban: "055", foto: "foto/055.jpg" },
+            { nama: "Radya Akma Nararya", nim: "G2-056", jawaban: "056", foto: "foto/056.jpg" },
+            { nama: "Akbar Rizki Rabbani", nim: "G2-057", jawaban: "057", foto: "foto/057.jpg" },
+            { nama: "Favian Tavis Ahmad", nim: "G2-058", jawaban: "058", foto: "foto/058.jpg" },
+            { nama: "Fikhar Hanuratama Rabbani", nim: "G2-059", jawaban: "059", foto: "foto/059.jpg" },
+            { nama: "Azahrani Syifaurrahma", nim: "G2-060", jawaban: "060", foto: "foto/060.jpg" },
+            { nama: "Zhahira Kaka Nurma Dianra", nim: "G2-061", jawaban: "061", foto: "foto/061.jpg" },
+            { nama: "Cahaya Kagoemi Ramadhani", nim: "G2-062", jawaban: "062", foto: "foto/062.jpg" },
+            { nama: "Arsya Fityah Zharfan", nim: "G2-063", jawaban: "063", foto: "foto/063.jpg" },
+            { nama: "Arga Putra Perdana", nim: "G2-064", jawaban: "064", foto: "foto/064.jpg" },
+            { nama: "Muhammad Akhtar Balya Noer", nim: "G2-065", jawaban: "065", foto: "foto/065.jpg" },
+            { nama: "Aulia Amrita Devi", nim: "G2-066", jawaban: "066", foto: "foto/066.jpg" },
+            { nama: "Zahra Aulia Ramadhani", nim: "G2-067", jawaban: "067", foto: "foto/067.jpg" },
+            { nama: "Ardhianeza Chiaramita", nim: "G2-068", jawaban: "068", foto: "foto/068.jpg" },
+            { nama: "Rifan Gunawan", nim: "G2-070", jawaban: "070", foto: "foto/070.jpg" },
+            { nama: "Aziza Cerelia Kusumah", nim: "G2-071", jawaban: "071", foto: "foto/071.jpg" },
+            { nama: "Diyanti Awaliyah", nim: "G2-072", jawaban: "072", foto: "foto/072.jpg" },
+            { nama: "Alysha Christiana Sumirat", nim: "G2-073", jawaban: "073", foto: "foto/073.jpg" },
+            { nama: "Ghatfan Hamdi Rangkuti", nim: "G2-074", jawaban: "074", foto: "foto/074.jpg" },
+            { nama: "Adia Firly Zalika", nim: "G2-075", jawaban: "075", foto: "foto/075.jpg" },
+            { nama: "Dede Nu'man Ahmad Fauji", nim: "G2-076", jawaban: "076", foto: "foto/076.jpg" },
+            { nama: "Maheswari Astagina Kinasih", nim: "G2-077", jawaban: "077", foto: "foto/077.jpg" },
+            { nama: "Mega Zaskia Ramadhani", nim: "G2-078", jawaban: "078", foto: "foto/078.jpg" },
+            { nama: "Marcello Javier Palagia", nim: "G2-079", jawaban: "079", foto: "foto/079.jpg" },
+            { nama: "Akmal Yassar", nim: "G2-080", jawaban: "080", foto: "foto/080.jpg" },
+            { nama: "Wildan Ridho Al Haqqi", nim: "G2-081", jawaban: "081", foto: "foto/081.jpg" },
+            { nama: "Saktiawan Hadi Wijaya", nim: "G2-082", jawaban: "082", foto: "foto/082.jpg" },
+            { nama: "Mochamad Farhan Rahayu", nim: "G2-083", jawaban: "083", foto: "foto/083.jpg" },
+            { nama: "Ekha Khoerunisa", nim: "G2-084", jawaban: "084", foto: "foto/084.jpg" },
+            { nama: "Luqyana Syifa Syauqiyyah", nim: "G2-085", jawaban: "085", foto: "foto/085.jpg" },
+            { nama: "Muhamad Sakha Fauzan", nim: "G2-086", jawaban: "086", foto: "foto/086.jpg" },
+            { nama: "Achmad Yusron Pratama", nim: "G2-087", jawaban: "087", foto: "foto/087.jpg" },
+            { nama: "Prasetyo", nim: "G2-088", jawaban: "088", foto: "foto/088.jpg" },
+            { nama: "Sakti Ahmad Lazuardi", nim: "G2-090", jawaban: "090", foto: "foto/090.jpg" },
+            { nama: "Naura Salsabila Rachman", nim: "G2-091", jawaban: "091", foto: "foto/091.jpg" },
+            { nama: "Nabil Aulia Rahutomo", nim: "G2-092", jawaban: "092", foto: "foto/092.jpg" },
+            { nama: "Giraz Ramadhan Santoso Putra", nim: "G2-094", jawaban: "094", foto: "foto/094.jpg" },
+            { nama: "Adzra Naura Fathima", nim: "G2-095", jawaban: "095", foto: "foto/095.jpg" },
+            { nama: "Teguh Imantoro", nim: "G2-099", jawaban: "099", foto: "foto/099.jpg" },
+            { nama: "Arkan Rasikh Athallah", nim: "G2-100", jawaban: "100", foto: "foto/100.jpg" },
+            { nama: "Zahran Ramadhan Putra Iskandar", nim: "G2-101", jawaban: "101", foto: "foto/101.jpg" },
+            { nama: "Filia Imtiyaz Wijaya", nim: "G2-102", jawaban: "102", foto: "foto/102.jpg" },
+            { nama: "Haris Pijar Widyanara", nim: "G2-105", jawaban: "105", foto: "foto/105.jpg" },
+            { nama: "Nadin Maulani", nim: "G2-106", jawaban: "106", foto: "foto/106.jpg" },
+            { nama: "Faqila Ahmad Yasin", nim: "G2-107", jawaban: "107", foto: "foto/107.jpg" }
+        ];
+
+        let poolMahasiswa = [];
+        let totalMahasiswa = 0;
+        let sudahDitebak = 0;
+        let indexSekarang = -1;
+
+        // Indikator mode permainan aktif (true = Tebak NIM, false = Tebak Nama)
+        let isModeTebakNIM = true;
+
+        const elemenFoto = document.getElementById("foto-mahasiswa");
+        const siluetFoto = document.getElementById("siluet-placeholder");
+        const elemenNama = document.getElementById("nama-mahasiswa");
+        const elemenInput = document.getElementById("input-nim");
+        const elemenWadah = document.getElementById("kolom-tebakan");
+        const elemenBtnSubmit = document.getElementById("btn-submit");
+        const elemenPopup = document.getElementById("popup");
+        const elemenCounter = document.getElementById("counter");
+        const elemenProgressFill = document.getElementById("progress-fill");
+        
+        const elemenBtnDropdown = document.getElementById("menu-dropdown");
+        const prefixText = document.querySelector(".prefix-text");
+
+        const gameCard = document.getElementById("game-card");
+        const successScreen = document.getElementById("success-screen");
+
+        function mulaiGameBaru() {
+            poolMahasiswa = [...masterData];
+            totalMahasiswa = masterData.length;
+            sudahDitebak = 0;
+            
+            successScreen.style.display = "none";
+            gameCard.style.display = "block";
+            
+            perbaruiProgress();
+            muatSoalAcak();
+        }
+
+        function perbaruiProgress() {
+            let sisa = poolMahasiswa.length;
+            sudahDitebak = totalMahasiswa - sisa;
+            elemenCounter.innerText = sisa;
+            
+            let persen = (sudahDitebak / totalMahasiswa) * 100;
+            elemenProgressFill.style.width = `${persen}%`;
+        }
+
+        // Membuka / Menutup panel Hamburger Menu
+        function toggleMenu() {
+            if (elemenBtnDropdown.style.display === "block") {
+                elemenBtnDropdown.style.display = "none";
+            } else {
+                elemenBtnDropdown.style.display = "block";
+            }
+        }
+
+        // Mengatur mode permainan berdasarkan pilihan dari hamburger menu
+        function setGameMode(modeTebakNIM) {
+            isModeTebakNIM = modeTebakNIM;
+            elemenBtnDropdown.style.display = "none"; // Tutup kembali menu dropdown
+            tutupRekomendasi();
+
+            if (isModeTebakNIM) {
+                prefixText.style.display = "inline";
+                elemenInput.placeholder = "065";
+            } else {
+                prefixText.style.display = "none";
+                elemenInput.placeholder = "Ketik Nama Lengkap";
+            }
+            
+            indexSekarang = -1;
+            muatSoalAcak();
+        }
+
+        function muatSoalAcak() {
+            if (poolMahasiswa.length === 0) {
+                gameCard.style.display = "none";
+                successScreen.style.display = "block";
+                return;
+            }
+
+            if (indexSekarang === -1 || indexSekarang >= poolMahasiswa.length) {
+                indexSekarang = Math.floor(Math.random() * poolMahasiswa.length);
+            }
+            
+            const dataAktif = poolMahasiswa[indexSekarang];
+            elemenFoto.src = dataAktif.foto;
+            
+            // Atur teks soal & visibilitas foto mengikuti jenis mode aktif
+            if (isModeTebakNIM) {
+                elemenNama.innerText = dataAktif.nama;
+                siluetFoto.style.display = "none"; // Selalu tampilkan foto profil asli
+            } else {
+                elemenNama.innerText = dataAktif.nim;
+                siluetFoto.style.display = "flex"; // Sembunyikan foto profil asli dengan siluet "?"
+            }
+            
+            elemenInput.value = "";
+            elemenWadah.classList.remove("benar", "salah");
+            elemenInput.disabled = false;
+            elemenBtnSubmit.disabled = false;
+            elemenInput.focus();
+        }
+
+        // Fitur Autocomplete Pencarian Nama Otomatis
+        function cariRekomendasiNama() {
+            if (isModeTebakNIM) return; // Hanya bekerja jika sedang di Mode Tebak Nama
+
+            const teksKetik = elemenInput.value.trim().toLowerCase();
+            const kotakOpsi = document.getElementById("autocomplete-box");
+            
+            if (teksKetik === "") {
+                tutupRekomendasi();
+                return;
+            }
+
+            // Menyaring nama mahasiswa yang berawalan huruf sesuai input teks user
+            const hasilFilter = masterData.filter(mhs => 
+                mhs.nama.toLowerCase().startsWith(teksKetik)
+            );
+
+            kotakOpsi.innerHTML = "";
+
+            if (hasilFilter.length > 0) {
+                kotakOpsi.style.display = "block";
+                
+                hasilFilter.forEach(mhs => {
+                    const item = document.createElement("div");
+                    item.className = "autocomplete-item";
+                    item.innerText = mhs.nama;
+                    
+                    // Aksi saat salah satu nama pada kotak opsi diklik
+                    item.onclick = function() {
+                        elemenInput.value = mhs.nama;
+                        tutupRekomendasi();
+                        elemenInput.focus();
+                    };
+                    kotakOpsi.appendChild(item);
+                });
+            } else {
+                tutupRekomendasi();
+            }
+        }
+
+        function tutupRekomendasi() {
+            const kotakOpsi = document.getElementById("autocomplete-box");
+            if (kotakOpsi) {
+                kotakOpsi.innerHTML = "";
+                kotakOpsi.style.display = "none";
+            }
+        }
+
+        function tampilkanToast(nimLengkap, nama) {
+            elemenPopup.innerHTML = `Benar! <br><span style="color: #60a5fa;">${nama}</span> adalah <span style="color: #4ade80;">${nimLengkap}</span>`;
+            elemenPopup.classList.add("show");
+            
+            setTimeout(() => {
+                elemenPopup.classList.remove("show");
+            }, 2200);
+        }
+
+        function cekJawaban() {
+            if (elemenInput.disabled) return;
+
+            const jawabanUser = elemenInput.value.trim().toLowerCase();
+            if (jawabanUser === "") return;
+
+            const dataAktif = poolMahasiswa[indexSekarang];
+            elemenWadah.classList.remove("salah", "benar");
+            void elemenWadah.offsetWidth; 
+
+            let isBenar = false;
+
+            if (isModeTebakNIM) {
+                isBenar = (jawabanUser === dataAktif.jawaban.toLowerCase());
+            } else {
+                isBenar = (jawabanUser === dataAktif.nama.toLowerCase());
+            }
+
+            if (isBenar) {
+                elemenWadah.classList.add("benar");
+                elemenInput.disabled = true;
+                elemenBtnSubmit.disabled = true;
+                
+                // Jika tebakan benar, paksa siluet menghilang agar wajah aslinya kelihatan
+                siluetFoto.style.display = "none";
+
+                tampilkanToast(dataAktif.nim, dataAktif.nama);
+                
+                poolMahasiswa.splice(indexSekarang, 1);
+                indexSekarang = -1;
+                perbaruiProgress();
+                
+                setTimeout(() => {
+                    muatSoalAcak();
+                }, 2200);
+            } else {
+                elemenWadah.classList.add("salah");
+            }
+        }
+
+        function berikanClueDenganEfek() {
+            const mahasiswaAktif = poolMahasiswa[indexSekarang];
+            
+            if (mahasiswaAktif && elemenInput) {
+                if (isModeTebakNIM) {
+                    elemenInput.value = mahasiswaAktif.jawaban;
+                } else {
+                    elemenInput.value = mahasiswaAktif.nama;
+                }
+                elemenInput.focus();
+                tutupRekomendasi();
+                
+                const elemenCahaya = document.querySelector('.efek-cahaya');
+                if (elemenCahaya) {
+                    elemenCahaya.classList.remove('animasi-bersinar');
+                    void elemenCahaya.offsetWidth; 
+                    elemenCahaya.classList.add('animasi-bersinar');
+                }
+            }
+        }
+
+        // Event listener klik area luar untuk menutup pop-up autocomplete
+        document.addEventListener("click", function(e) {
+            if (e.target !== elemenInput) {
+                tutupRekomendasi();
+            }
+        });
+
+        elemenInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                cekJawaban();
+            }
+        });
+
+        elemenBtnSubmit.addEventListener("click", function() {
+            cekJawaban();
+        });
+
+        window.onload = mulaiGameBaru;
+    </script>
+</body>
+</html>
