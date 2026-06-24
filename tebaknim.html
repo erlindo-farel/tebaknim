@@ -13,10 +13,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             color: #1e293b;
-            overflow: hidden;
+            padding: 20px 0;
+            box-sizing: border-box;
         }
 
         .container {
@@ -26,341 +27,49 @@
             box-sizing: border-box;
         }
 
-        /* Desain Panel Progress Atas */
-        .progress-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 16px 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            margin-bottom: 20px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-
-        .counter-text {
-            font-size: 26px;
-            font-weight: 800;
-            color: #2563eb;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar-bg {
-            background-color: #e2e8f0;
-            border-radius: 9999px;
-            height: 10px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Desain Kartu Utama Premium */
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            padding: 40px 30px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            position: relative;
-        }
-
-        /* Wadah Foto & Siluet Tanda Tanya */
-        .foto-wrapper {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 20px auto;
-        }
-
-        .foto-profil {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #ffffff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
-            display: block;
-            background-color: #f1f5f9;
-            transition: transform 0.3s ease;
-        }
-
-        /* Siluet "?" Khusus Mode Tebak Nama */
-        .siluet-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: #e2e8f0;
-            border: 4px solid #ffffff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-            font-weight: 700;
-            color: #94a3b8;
-            z-index: 2;
-        }
-
-        h2 {
-            margin: 0 0 25px 0;
-            font-size: 24px;
-            font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -0.5px;
-        }
-
-        /* Wadah Input Fleksibel */
-        .input-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #cbd5e1;
-            border-radius: 14px;
-            background-color: #f8fafc;
-            padding: 6px 10px 6px 18px;
-            transition: all 0.25s ease;
-        }
-
-        .input-container:focus-within {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-            background-color: #ffffff;
-        }
-
-        .input-wrapper {
-            position: relative;
-            flex: 1;
-            display: flex;
-            align-items: center;
-        }
-
-        .prefix-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: #64748b;
-            user-select: none;
-            padding-right: 4px;
-        }
-
-        input {
-            flex: 1;
-            width: 100%;
-            padding: 8px 0;
-            font-size: 22px;
-            font-weight: 700;
-            text-align: left;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: #1e293b;
-        }
-
-        input::placeholder {
-            color: #94a3b8;
-            font-weight: 500;
-        }
-
-        /* Tombol Kirim Jawaban */
-        .btn-submit {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .btn-submit:hover {
-            color: #2563eb;
-            background-color: #eff6ff;
-        }
-
-        .btn-submit:active {
-            transform: scale(0.92);
-        }
-
-        /* Status BENAR & SALAH */
-        .benar {
-            background-color: #f0fdf4 !important;
-            border-color: #16a34a !important;
-        }
-        .benar .prefix-text, .benar input, .benar .btn-submit {
-            color: #166534 !important;
-        }
-        .benar .btn-submit {
-            pointer-events: none;
-        }
-
-        .salah {
-            background-color: #fdf2f2 !important;
-            border-color: #dc2626 !important;
-            animation: getar 0.3s ease-in-out;
-        }
-        .salah .prefix-text, .salah input, .salah .btn-submit {
-            color: #991b1b !important;
-        }
-
-        @keyframes getar {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-6px); }
-            40%, 80% { transform: translateX(6px); }
-        }
-
-        /* Layar Sukses Selesai Game */
-        .success-screen {
-            display: none;
-            text-align: center;
-            background: white;
-            padding: 40px 30px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        }
-
-        .success-screen h3 {
-            color: #10b981;
-            font-size: 28px;
-            margin-bottom: 12px;
-            font-weight: 800;
-        }
-
-        .btn-restart {
-            margin-top: 20px;
-            padding: 14px 28px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .btn-restart:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(29, 78, 216, 0.4);
-        }
-
-        /* Pop-Up Toast Hasil Jawaban */
-        #popup {
-            visibility: hidden;
-            min-width: 300px;
-            background-color: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(8px);
-            color: #ffffff;
-            text-align: center;
-            border-radius: 16px;
-            padding: 18px;
-            position: fixed;
-            z-index: 10005;
-            bottom: 40px;
-            font-size: 18px;
-            font-weight: 600;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform: translateY(30px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        #popup.show {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Tombol Lampu Clue Melayang */
-        #btn-clue-floating {
-            position: fixed;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: all 0.25s ease;
-        }
-
-        #btn-clue-floating:hover {
-            transform: translateY(-53%) scale(1.05);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .efek-cahaya {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(234, 179, 8, 0.5);
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .animasi-bersinar {
-            animation: kilatanCahaya 1.2s ease-out forwards;
-        }
-
-        @keyframes kilatanCahaya {
-            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 20px 10px rgba(234, 179, 8, 0.7); }
-            30% { transform: scale(2.2); opacity: 0.8; box-shadow: 0 0 40px 25px rgba(234, 179, 8, 0.4); }
-            100% { transform: scale(3.2); opacity: 0; box-shadow: 0 0 0px 0px rgba(234, 179, 8, 0); }
-        }
-
-        /* Hamburger Menu Modern */
-        .hamburger-menu {
+        /* Navigasi Tombol Atas */
+        .top-nav {
             position: fixed;
             top: 20px;
             right: 25px;
+            display: flex;
+            gap: 12px;
             z-index: 10000;
+        }
+
+        .nav-btn {
             cursor: pointer;
             background: #ffffff;
             padding: 12px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.2s ease;
         }
 
-        .hamburger-menu:hover {
+        .nav-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+
+        .bar-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .bar {
             width: 22px;
             height: 3px;
             background-color: #334155;
-            margin: 4px 0;
-            transition: 0.3s;
+            margin: 2px 0;
             border-radius: 2px;
         }
 
-        /* Dropdown Menu List */
+        /* Panel Menu Dropdown Mode */
         .menu-dropdown {
             display: none;
             position: fixed;
@@ -397,105 +106,359 @@
             color: #2563eb;
         }
 
-        /* Wadah Autocomplete Dropdown Premium */
-        .autocomplete-box {
-            position: absolute;
-            top: 100%;
-            left: -14px;
-            right: -14px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 999;
-            box-shadow: 0 12px 24px -4px rgba(0,0,0,0.08);
+        /* Modal Pop-up Filter NIM */
+        .modal-overlay {
             display: none;
-            text-align: left;
-            margin-top: 8px;
-            padding: 4px 0;
-        }
-        
-        .autocomplete-item {
-            padding: 11px 18px;
-            cursor: pointer;
-            border-bottom: 1px solid #f8fafc;
-            font-size: 15px;
-            font-weight: 600;
-            color: #334155;
-            transition: background 0.15s ease;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
         }
 
-        .autocomplete-item:last-child {
-            border-bottom: none;
+        .filter-modal {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 90%;
+            max-width: 360px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            animation: bukaMenu 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+
+        .filter-modal h3 { margin: 0 0 12px 0; font-weight: 800; font-size: 22px; }
+
+        .highscore-box {
+            font-size: 14px; color: #16a34a; font-weight: 700;
+            background: #f0fdf4; padding: 8px; border-radius: 8px; margin-bottom: 18px;
+        }
+
+        .filter-inputs {
+            display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 22px;
+        }
+
+        .filter-inputs input {
+            width: 70px; padding: 8px; font-size: 18px; border: 2px solid #cbd5e1;
+            border-radius: 10px; text-align: center; font-weight: 700;
+        }
+
+        /* Desain Panel Progress Atas */
+        .progress-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .counter-text {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .timer-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #475569;
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: none; /* Sembunyi di awal, muncul hanya saat mode filter berjalan */
+        }
+
+        .progress-bar-bg {
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Desain Kartu Utama Premium */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+
+        .foto-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px auto;
+        }
+
+        .foto-profil {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            display: block;
+            background-color: #f1f5f9;
+        }
+
+        .siluet-placeholder {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%; background-color: #e2e8f0; border: 4px solid #ffffff;
+            display: none; align-items: center; justify-content: center;
+            font-size: 42px; font-weight: 700; color: #94a3b8; z-index: 2;
+        }
+
+        h2 {
+            margin: 0 0 25px 0;
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        /* Wadah Input */
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 14px;
+            background-color: #f8fafc;
+            padding: 6px 10px 6px 18px;
+            transition: all 0.25s ease;
+            margin-bottom: 15px;
+        }
+
+        .input-container:focus-within {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            background-color: #ffffff;
+        }
+
+        .input-wrapper {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .prefix-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #64748b;
+            user-select: none;
+            padding-right: 4px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            width: 100%;
+            padding: 8px 0;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: left;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #1e293b;
+        }
+
+        /* Tombol Submit & Skip */
+        .btn-submit {
+            background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 10px;
+        }
+
+        .btn-skip {
+            width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;
+            border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; display: none; /* Muncul hanya di mode filter */
+        }
+        .btn-skip:hover { background: #e2e8f0; color: #1e293b; }
+
+        .btn-primary {
+            padding: 12px 24px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+        }
+        .btn-secondary {
+            padding: 12px 24px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer;
+        }
+
+        /* Status Hasil */
+        .benar { background-color: #f0fdf4 !important; border-color: #16a34a !important; }
+        .benar input, .benar .prefix-text { color: #166534 !important; }
+        .salah { background-color: #fdf2f2 !important; border-color: #dc2626 !important; animation: getar 0.3s ease-in-out; }
+        .salah input, .salah .prefix-text { color: #991b1b !important; }
+
+        @keyframes getar {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Layar Sukses Menang */
+        .success-screen {
+            display: none; text-align: center; background: white; padding: 40px 30px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .success-screen h3 { color: #10b981; font-size: 28px; margin-bottom: 12px; font-weight: 800; }
+        .btn-restart {
+            margin-top: 20px; padding: 14px 28px; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+        }
+
+        /* Toast Popup Keterangan */
+        #popup {
+            visibility: hidden; min-width: 300px; background-color: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px);
+            color: #ffffff; text-align: center; border-radius: 16px; padding: 18px; position: fixed; z-index: 10005; bottom: 40px; font-size: 18px; font-weight: 600; opacity: 0; transition: opacity 0.3s, transform 0.3s; transform: translateY(30px);
+        }
+        #popup.show { visibility: visible; opacity: 1; transform: translateY(0); }
         
-        .autocomplete-item:hover {
-            background-color: #f0fdf4;
-            color: #16a34a;
+        /* Tombol Lampu Clue Melayang */
+        #btn-clue-floating {
+            position: fixed; right: 25px; top: 50%; transform: translateY(-50%); background: #ffffff;
+            border: 1px solid #e2e8f0; border-radius: 50%; width: 60px; height: 60px; font-size: 1.8rem; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; z-index: 9999;
         }
+        .efek-cahaya { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: rgba(234, 179, 8, 0.5); pointer-events: none; opacity: 0; }
+        .animasi-bersinar { animation: kilatanCahaya 1.2s ease-out forwards; }
+        @keyframes kilatanCahaya {
+            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 20px 10px rgba(234, 179, 8, 0.7); }
+            30% { transform: scale(2.2); opacity: 0.8; box-shadow: 0 0 40px 25px rgba(234, 179, 8, 0.4); }
+            100% { transform: scale(3.2); opacity: 0; box-shadow: 0 0px 0px rgba(234, 179, 8, 0); }
+        }
+
+        /* Autocomplete Box Dropdown */
+        .autocomplete-box {
+            position: absolute; top: 100%; left: -14px; right: -14px; background: #ffffff; border: 1px solid #e2e8f0;
+            border-radius: 14px; max-height: 180px; overflow-y: auto; z-index: 999; box-shadow: 0 12px 24px rgba(0,0,0,0.08); display: none; margin-top: 8px;
+        }
+        .autocomplete-item { padding: 11px 18px; cursor: pointer; border-bottom: 1px solid #f8fafc; font-size: 15px; font-weight: 600; color: #334155; }
+        .autocomplete-item:hover { background-color: #f0fdf4; color: #16a34a; }
     </style>
 </head>
 <body>
 
-    <div class="hamburger-menu" onclick="toggleMenu()">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+    <!-- Navigasi Kanan Atas -->
+    <div class="top-nav">
+        <!-- Tombol Pengaturan Filter NIM -->
+        <div class="nav-btn" onclick="bukaModalFilter()" title="Atur Rentang NIM Latihan">⚙️ Rentang Nim</div>
+        <!-- Hamburger Menu -->
+        <div class="nav-btn bar-container" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
     </div>
     
+    <!-- Dropdown Menu Pilihan Mode Dasar -->
     <div class="menu-dropdown" id="menu-dropdown">
         <div class="menu-item" onclick="setGameMode(true)">Tebak NIM</div>
         <div class="menu-item" onclick="setGameMode(false)">Tebak Nama</div>
     </div>
 
+    <!-- Modal Dialog Pop-up Pengaturan Filter NIM -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="filter-modal">
+            <h3>⚙️ Atur rentang nim</h3>
+            <div class="highscore-box" id="highscore-box">Highscore Tercepat: Belum Tercatat</div>
+            <p style="color: #64748b; font-size: 14px; margin-top:0;">Masukkan rentang angka NIM (1 - 107) untuk mengaktifkan tantangan stopwatch:</p>
+            <div class="filter-inputs">
+                <input type="number" id="nim-mulai" value="1" min="1" max="107">
+                <span style="font-weight: 700; color: #64748b;">sampai</span>
+                <input type="number" id="nim-sampai" value="30" min="1" max="107">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn-secondary" onclick="tutupModalFilter()">Batal</button>
+                <button class="btn-primary" onclick="aktifkanModeTerfilter()">Mulai</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="progress-panel">
-            <div class="counter-text" id="counter">Memuat...</div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progress-fill"></div>
-            </div>
-        </div>
-
-        <div class="card" id="game-card">
-            <div class="foto-wrapper">
-                <img id="foto-mahasiswa" class="foto-profil" src="" alt="Foto Mahasiswa" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23cbd5e1\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z\'/></svg>'">
-                <div id="siluet-placeholder" class="siluet-placeholder">?</div>
-            </div>
-            
-            <h2 id="nama-mahasiswa">Memuat...</h2>
-            
-            <div class="input-container" id="kolom-tebakan">
-                <span class="prefix-text">G2-</span>
-                <div class="input-wrapper">
-                    <input type="text" id="input-nim" placeholder="065" autocomplete="off" oninput="cariRekomendasiNama()">
-                    <div class="autocomplete-box" id="autocomplete-box"></div>
+        <!-- Area Game Utama -->
+        <div id="main-game-area">
+            <!-- Progress & Stats Panel -->
+            <div class="progress-panel">
+                <div class="stats-grid">
+                    <div class="counter-text" id="counter">0</div>
+                    <div class="timer-text" id="timer-display">00:00</div>
                 </div>
-                <button class="btn-submit" id="btn-submit" title="Kirim Jawaban (Enter)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                </button>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- Kartu Soal -->
+            <div class="card" id="game-card">
+                <div class="foto-wrapper">
+                    <img id="foto-mahasiswa" class="foto-profil" src="" alt="Foto" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23cbd5e1\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z\'/></svg>'">
+                    <div id="siluet-placeholder" class="siluet-placeholder">?</div>
+                </div>
+                
+                <h2 id="nama-mahasiswa">Memuat...</h2>
+                
+                <div class="input-container" id="kolom-tebakan">
+                    <span class="prefix-text">G2-</span>
+                    <div class="input-wrapper">
+                        <input type="text" id="input-nim" placeholder="065" autocomplete="off" oninput="cariRekomendasiNama()">
+                        <div class="autocomplete-box" id="autocomplete-box"></div>
+                    </div>
+                    <button class="btn-submit" id="btn-submit" title="Kirim Jawaban (Enter)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Tombol Skip yang dikontrol Dinamis via JS -->
+                <button class="btn-skip" id="btn-skip" onclick="lewatiSoal()">Lewati Soal ⏭️</button>
             </div>
         </div>
 
+        <!-- Layar Sukses Menang -->
         <div class="success-screen" id="success-screen">
             <h3>Luar Biasa! 🎉</h3>
-            <p>Kamu berhasil menghafal seluruh nomor induk mahasiswa tanpa ada yang terlewat.</p>
+            <p id="success-p-text">Kamu berhasil menghafal seluruh nomor induk mahasiswa tanpa ada yang terlewat.</p>
+            <p id="final-time-text" style="font-weight: 700; font-size: 18px; color: #2563eb; margin: 5px 0;"></p>
             <button class="btn-restart" onclick="mulaiGameBaru()">Ulangi Latihan</button>
         </div>
     </div>
 
+    <!-- Toast Popup Jawaban -->
     <div id="popup">NIM Lengkap</div>
 
+    <!-- Tombol Lampu Clue Melayang -->
     <button id="btn-clue-floating" onclick="berikanClueDenganEfek()" title="Bantuan Jawaban">
-        💡
-        <span class="efek-cahaya"></span>
+        💡<span class="efek-cahaya"></span>
     </button>
 
     <script>
-        // 1. DATA MASTER MAHASISWA (Format NIM G2-xxx)
+        // 1. DATA MASTER MAHASISWA
         const masterData = [
             { nama: "Adzfar Zacky Rahman", nim: "G2-001", jawaban: "001", foto: "foto/001.jpg" },
             { nama: "Aullivhya Shavana Zeevania", nim: "G2-002", jawaban: "002", foto: "foto/002.jpg" },
@@ -601,9 +564,12 @@
         let totalMahasiswa = 0;
         let sudahDitebak = 0;
         let indexSekarang = -1;
-
-        // Indikator mode permainan aktif (true = Tebak NIM, false = Tebak Nama)
         let isModeTebakNIM = true;
+
+        // Variabel Tambahan Pengontrol Mode Latihan Terfilter (Stopwatch)
+        let isModeFilterAktif = false;
+        let timerInterval = null;
+        let detikBerjalan = 0;
 
         const elemenFoto = document.getElementById("foto-mahasiswa");
         const siluetFoto = document.getElementById("siluet-placeholder");
@@ -611,6 +577,7 @@
         const elemenInput = document.getElementById("input-nim");
         const elemenWadah = document.getElementById("kolom-tebakan");
         const elemenBtnSubmit = document.getElementById("btn-submit");
+        const elemenBtnSkip = document.getElementById("btn-skip");
         const elemenPopup = document.getElementById("popup");
         const elemenCounter = document.getElementById("counter");
         const elemenProgressFill = document.getElementById("progress-fill");
@@ -619,18 +586,130 @@
         const prefixText = document.querySelector(".prefix-text");
 
         const gameCard = document.getElementById("game-card");
+        const mainGameArea = document.getElementById("main-game-area");
         const successScreen = document.getElementById("success-screen");
+        
+        const modalOverlay = document.getElementById("modal-overlay");
+        const timerDisplay = document.getElementById("timer-display");
 
+        // Membuka / Menutup panel Hamburger Menu atas
+        function toggleMenu() {
+            elemenBtnDropdown.style.display = elemenBtnDropdown.style.display === "block" ? "none" : "block";
+        }
+
+        // Mengganti Mode Game Utama (Tebak NIM / Tebak Nama)
+        function setGameMode(modeTebakNIM) {
+            isModeTebakNIM = modeTebakNIM;
+            elemenBtnDropdown.style.display = "none";
+            tutupRekomendasi();
+            
+            // Matikan paksa mode filter jika sedang berjalan agar tidak terjadi crash timer
+            matikanSistemFilterDanStopwatch(); 
+            mulaiGameBaru();
+        }
+
+        // Logika Siklus Game Normal / Default Pertama Kali Dimuat
         function mulaiGameBaru() {
+            isModeFilterAktif = false;
+            matikanSistemFilterDanStopwatch();
+
             poolMahasiswa = [...masterData];
             totalMahasiswa = masterData.length;
             sudahDitebak = 0;
+            indexSekarang = -1;
             
             successScreen.style.display = "none";
-            gameCard.style.display = "block";
+            mainGameArea.style.display = "block";
+            elemenBtnSkip.style.display = "none"; // Sembunyikan tombol skip di mode normal
+            document.getElementById("btn-clue-floating").style.display = "flex"; // Hidupkan lampu clue melayang
+
+            if (isModeTebakNIM) {
+                prefixText.style.display = "inline";
+                elemenInput.placeholder = "065";
+            } else {
+                prefixText.style.display = "none";
+                elemenInput.placeholder = "Ketik Nama Lengkap";
+            }
             
             perbaruiProgress();
             muatSoalAcak();
+        }
+
+        // FUNGSI POP-UP MODAL FILTER
+        function bukaModalFilter() {
+            modalOverlay.style.display = "flex";
+            const keySaves = isModeTebakNIM ? "score_tebak_nim" : "score_tebak_nama";
+            const scoreLama = localStorage.getItem(keySaves);
+            const teksScore = document.getElementById("highscore-box");
+            
+            if (scoreLama) {
+                teksScore.innerText = `🏆 Rekor Tercepat Saat Ini: ${formatMenitDetik(parseInt(scoreLama))}`;
+                teksScore.style.color = "#16a34a";
+            } else {
+                teksScore.innerText = "⚡ Belum ada rekor waktu yang tercatat.";
+                teksScore.style.color = "#475569";
+            }
+        }
+
+        function tutupModalFilter() {
+            modalOverlay.style.display = "none";
+        }
+
+        // EKSEKUSI JIKA USER KLIK "MULAI" DI MODAL FILTER
+        function aktifkanModeTerfilter() {
+            const minNIM = parseInt(document.getElementById("nim-mulai").value) || 1;
+            const maxNIM = parseInt(document.getElementById("nim-sampai").value) || 107;
+
+            // Menyaring data tumpukan soal berdasarkan rentang input user
+            poolMahasiswa = masterData.filter(mhs => {
+                const angkaNIM = parseInt(mhs.jawaban);
+                return angkaNIM >= minNIM && angkaNIM <= maxNIM;
+            });
+
+            if (poolMahasiswa.length === 0) {
+                alert("Tidak ada data mahasiswa pada jangkauan angka tersebut!");
+                return;
+            }
+
+            isModeFilterAktif = true;
+            totalMahasiswa = poolMahasiswa.length;
+            sudahDitebak = 0;
+            indexSekarang = -1;
+
+            tutupModalFilter();
+            successScreen.style.display = "none";
+
+            // Sembunyikan Tombol Lampu Clue 💡 & Tampilkan Tombol Skip ⏭️
+            document.getElementById("btn-clue-floating").style.display = "none";
+            elemenBtnSkip.style.display = "block";
+
+            // Hidupkan Elemen Stopwatch Teks Atas
+            timerDisplay.style.display = "block";
+            resetDanMulaiTimer();
+
+            perbaruiProgress();
+            muatSoalAcak();
+        }
+
+        function matikanSistemFilterDanStopwatch() {
+            clearInterval(timerInterval);
+            timerDisplay.style.display = "none";
+        }
+
+        function resetDanMulaiTimer() {
+            clearInterval(timerInterval);
+            detikBerjalan = 0;
+            timerDisplay.innerText = "00:00";
+            timerInterval = setInterval(() => {
+                detikBerjalan++;
+                timerDisplay.innerText = formatMenitDetik(detikBerjalan);
+            }, 1000);
+        }
+
+        function formatMenitDetik(totalDetik) {
+            const menit = Math.floor(totalDetik / 60).toString().padStart(2, '0');
+            const detik = (totalDetik % 60).toString().padStart(2, '0');
+            return `${menit}:${detik}`;
         }
 
         function perbaruiProgress() {
@@ -642,37 +721,9 @@
             elemenProgressFill.style.width = `${persen}%`;
         }
 
-        // Membuka / Menutup panel Hamburger Menu
-        function toggleMenu() {
-            if (elemenBtnDropdown.style.display === "block") {
-                elemenBtnDropdown.style.display = "none";
-            } else {
-                elemenBtnDropdown.style.display = "block";
-            }
-        }
-
-        // Mengatur mode permainan berdasarkan pilihan dari hamburger menu
-        function setGameMode(modeTebakNIM) {
-            isModeTebakNIM = modeTebakNIM;
-            elemenBtnDropdown.style.display = "none"; // Tutup kembali menu dropdown
-            tutupRekomendasi();
-
-            if (isModeTebakNIM) {
-                prefixText.style.display = "inline";
-                elemenInput.placeholder = "065";
-            } else {
-                prefixText.style.display = "none";
-                elemenInput.placeholder = "Ketik Nama Lengkap";
-            }
-            
-            indexSekarang = -1;
-            muatSoalAcak();
-        }
-
         function muatSoalAcak() {
             if (poolMahasiswa.length === 0) {
-                gameCard.style.display = "none";
-                successScreen.style.display = "block";
+                selesaiPermainanSempurna();
                 return;
             }
 
@@ -683,13 +734,12 @@
             const dataAktif = poolMahasiswa[indexSekarang];
             elemenFoto.src = dataAktif.foto;
             
-            // Atur teks soal & visibilitas foto mengikuti jenis mode aktif
             if (isModeTebakNIM) {
                 elemenNama.innerText = dataAktif.nama;
-                siluetFoto.style.display = "none"; // Selalu tampilkan foto profil asli
+                siluetFoto.style.display = "none";
             } else {
                 elemenNama.innerText = dataAktif.nim;
-                siluetFoto.style.display = "flex"; // Sembunyikan foto profil asli dengan siluet "?"
+                siluetFoto.style.display = "flex"; 
             }
             
             elemenInput.value = "";
@@ -699,61 +749,18 @@
             elemenInput.focus();
         }
 
-        // Fitur Autocomplete Pencarian Nama Otomatis
-        function cariRekomendasiNama() {
-            if (isModeTebakNIM) return; // Hanya bekerja jika sedang di Mode Tebak Nama
-
-            const teksKetik = elemenInput.value.trim().toLowerCase();
-            const kotakOpsi = document.getElementById("autocomplete-box");
-            
-            if (teksKetik === "") {
-                tutupRekomendasi();
-                return;
+        // FUNGSI SKIP SOAL (Hanya Aktif di Mode Filter)
+        function lewatiSoal() {
+            if (!isModeFilterAktif) return;
+            tutupRekomendasi();
+            if (poolMahasiswa.length > 1) {
+                let indeksBaru = indexSekarang;
+                while (indeksBaru === indexSekarang) {
+                    indeksBaru = Math.floor(Math.random() * poolMahasiswa.length);
+                }
+                indexSekarang = indeksBaru;
             }
-
-            // Menyaring nama mahasiswa yang berawalan huruf sesuai input teks user
-            const hasilFilter = masterData.filter(mhs => 
-                mhs.nama.toLowerCase().startsWith(teksKetik)
-            );
-
-            kotakOpsi.innerHTML = "";
-
-            if (hasilFilter.length > 0) {
-                kotakOpsi.style.display = "block";
-                
-                hasilFilter.forEach(mhs => {
-                    const item = document.createElement("div");
-                    item.className = "autocomplete-item";
-                    item.innerText = mhs.nama;
-                    
-                    // Aksi saat salah satu nama pada kotak opsi diklik
-                    item.onclick = function() {
-                        elemenInput.value = mhs.nama;
-                        tutupRekomendasi();
-                        elemenInput.focus();
-                    };
-                    kotakOpsi.appendChild(item);
-                });
-            } else {
-                tutupRekomendasi();
-            }
-        }
-
-        function tutupRekomendasi() {
-            const kotakOpsi = document.getElementById("autocomplete-box");
-            if (kotakOpsi) {
-                kotakOpsi.innerHTML = "";
-                kotakOpsi.style.display = "none";
-            }
-        }
-
-        function tampilkanToast(nimLengkap, nama) {
-            elemenPopup.innerHTML = `Benar! <br><span style="color: #60a5fa;">${nama}</span> adalah <span style="color: #4ade80;">${nimLengkap}</span>`;
-            elemenPopup.classList.add("show");
-            
-            setTimeout(() => {
-                elemenPopup.classList.remove("show");
-            }, 2200);
+            muatSoalAcak();
         }
 
         function cekJawaban() {
@@ -778,8 +785,6 @@
                 elemenWadah.classList.add("benar");
                 elemenInput.disabled = true;
                 elemenBtnSubmit.disabled = true;
-                
-                // Jika tebakan benar, paksa siluet menghilang agar wajah aslinya kelihatan
                 siluetFoto.style.display = "none";
 
                 tampilkanToast(dataAktif.nim, dataAktif.nama);
@@ -796,7 +801,83 @@
             }
         }
 
+        function selesaiPermainanSempurna() {
+            mainGameArea.style.display = "none";
+            successScreen.style.display = "block";
+
+            if (isModeFilterAktif) {
+                matikanSistemFilterDanStopwatch();
+                document.getElementById("success-p-text").innerText = "Kamu berhasil menghafal seluruh nomor induk mahasiswa pada jangkauan filter rentang ini!";
+                document.getElementById("final-time-text").innerText = `⏱️ Waktu Akhir Tantangan: ${formatMenitDetik(detikBerjalan)}`;
+
+                // Simpan Highscore Rekor Baru ke LocalStorage browser
+                const keySaves = isModeTebakNIM ? "score_tebak_nim" : "score_tebak_nama";
+                const rekorLama = localStorage.getItem(keySaves);
+
+                if (!rekorLama || detikBerjalan < parseInt(rekorLama)) {
+                    localStorage.setItem(keySaves, detikBerjalan);
+                    alert("🎉 SKOR TERCEPAT BARU! Kamu berhasil memecahkan rekor waktu latihan sebelumnya.");
+                }
+            } else {
+                document.getElementById("success-p-text").innerText = "Kamu berhasil menghafal seluruh nomor induk mahasiswa seangkatan tanpa ada yang terlewat.";
+                document.getElementById("final-time-text").innerText = "";
+            }
+        }
+
+        // Fitur Autocomplete Rekomendasi Nama Bawah Input
+        function cariRekomendasiNama() {
+            if (isModeTebakNIM) return;
+
+            const teksKetik = elemenInput.value.trim().toLowerCase();
+            const kotakOpsi = document.getElementById("autocomplete-box");
+            
+            if (teksKetik === "") {
+                tutupRekomendasi();
+                return;
+            }
+
+            const hasilFilter = masterData.filter(mhs => 
+                mhs.nama.toLowerCase().startsWith(teksKetik)
+            );
+
+            kotakOpsi.innerHTML = "";
+
+            if (hasilFilter.length > 0) {
+                kotakOpsi.style.display = "block";
+                
+                hasilFilter.forEach(mhs => {
+                    const item = document.createElement("div");
+                    item.className = "autocomplete-item";
+                    item.innerText = mhs.nama;
+                    
+                    item.onclick = function() {
+                        elemenInput.value = mhs.nama;
+                        tutupRekomendasi();
+                        elemenInput.focus();
+                    };
+                    kotakOpsi.appendChild(item);
+                });
+            } else {
+                tutupRekomendasi();
+            }
+        }
+
+        function tutupRekomendasi() {
+            const kotakOpsi = document.getElementById("autocomplete-box");
+            if (kotakOpsi) {
+                kotakOpsi.innerHTML = "";
+                kotakOpsi.style.display = "none";
+            }
+        }
+
+        function tampilkanToast(nimLengkap, nama) {
+            elemenPopup.innerHTML = `Benar! <br><span style="color: #60a5fa;">${nama}</span> adalah <span style="color: #4ade80;">${nimLengkap}</span>`;
+            elemenPopup.classList.add("show");
+            setTimeout(() => { elemenPopup.classList.remove("show"); }, 2200);
+        }
+
         function berikanClueDenganEfek() {
+            if (isModeFilterAktif) return; // Nonaktifkan clue jika di mode filter kompetitif
             const mahasiswaAktif = poolMahasiswa[indexSekarang];
             
             if (mahasiswaAktif && elemenInput) {
@@ -817,11 +898,8 @@
             }
         }
 
-        // Event listener klik area luar untuk menutup pop-up autocomplete
         document.addEventListener("click", function(e) {
-            if (e.target !== elemenInput) {
-                tutupRekomendasi();
-            }
+            if (e.target !== elemenInput) tutupRekomendasi();
         });
 
         elemenInput.addEventListener("keypress", function(event) {
@@ -834,6 +912,7 @@
             cekJawaban();
         });
 
+        // Jalankan Inisialisasi Game Normal di Awal Load
         window.onload = mulaiGameBaru;
     </script>
 </body>
